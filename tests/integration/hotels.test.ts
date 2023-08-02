@@ -18,7 +18,7 @@ import {
   createHotel,
   createRoomWithHotelId,
 } from "../factories";
-import { cleanDb, generateValidToken } from "../helpers";
+import { cleanDb, cleanRedis, generateValidToken } from "../helpers";
 
 beforeAll(async () => {
   await init();
@@ -26,6 +26,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   await cleanDb();
+  await cleanRedis();
 });
 
 const server = supertest(app);
