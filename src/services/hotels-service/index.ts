@@ -3,6 +3,8 @@ import enrollmentRepository from "@/repositories/enrollment-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 import { notFoundError } from "@/errors";
 import { cannotListHotelsError } from "@/errors/cannot-list-hotels-error";
+import redisRepository from "../../repositories/redis-repository";
+import { Hotel } from "@prisma/client";
 
 async function listHotels(userId: number) {
   //Tem enrollment?
@@ -20,8 +22,14 @@ async function listHotels(userId: number) {
 
 async function getHotels(userId: number) {
   await listHotels(userId);
-
+  const cacheKey = "hotels";
+  const cachedHotels = await redisRepository.getRedis(cacheKey);
+  if(cachedHotels) {
+    const parsedHotels: Hotel[] = JSON.parse(cachedHotels);
+    return parsedHotels;
+  }
   const hotels = await hotelRepository.findHotels();
+  await redisRepository.setRedis(cacheKey, JSON.stringify(hotels));
   return hotels;
 }
 
