@@ -28,6 +28,15 @@ async function checkValidBooking(roomId: number) {
   }
 }
 
+async function checkRoomAvailability(roomId: number) {
+  const room = await roomRepository.findById(roomId);
+  const bookings = await bookingRepository.findByRoomId(roomId);
+  if (!room) {
+      throw notFoundError();
+  }
+  return bookings;
+}
+
 async function getBooking(userId: number) {
   const booking = await bookingRepository.findByUserId(userId);
   if (!booking) {
@@ -63,6 +72,7 @@ const bookingService = {
   bookingRoomById,
   getBooking,
   changeBookingRoomById,
+  checkRoomAvailability,
 };
 
 export default bookingService;
