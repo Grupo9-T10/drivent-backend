@@ -8,8 +8,16 @@ async function getActivitiesService() {
   return activitie;
 }
 
+async function getActivitiesDayService(day: Date) {
+  const activitie = await activitiesRepository.findManyDay(day);
+  if (!activitie) throw notFoundError();
+
+  return activitie;
+}
+
 const activitiesService = {
-    getActivitiesService,
+  getActivitiesService,
+  getActivitiesDayService,
 };
 
 export default activitiesService;

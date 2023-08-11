@@ -141,12 +141,12 @@ model Booking {
 }
 
 model Activities {
-  id         Int      @id @default(autoincrement())
-  nome       String
-  horario    DateTime
-  duracao    Int // Duração em minutos
-  vagasTotal Int
-  vagasAtual Int
-  local      String
-  user       User[]   @relation("ActivitiesUsers")
+  id               Int      @id @default(autoincrement())
+  name             String
+  day              DateTime
+  duration         Int // Duração em minutos
+  vacanciesTotal   Int
+  vacanciesCurrent Int
+  local            String
+  user             User[]   @relation("ActivitiesUsers")
 }
