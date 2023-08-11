@@ -19,13 +19,6 @@ async function getFirstEvent(): Promise<GetFirstEventResult> {
   return exclude(event, 'createdAt', 'updatedAt');
 }
 
-async function getEvents() {
-  const events = await eventRepository.findMany();
-  if (!events) throw notFoundError();
-
-  return exclude(events);
-}
-
 export type GetFirstEventResult = Omit<Event, 'createdAt' | 'updatedAt'>;
 
 async function isCurrentEventActive(): Promise<boolean> {
@@ -41,7 +34,6 @@ async function isCurrentEventActive(): Promise<boolean> {
 
 const eventsService = {
   getFirstEvent,
-  getEvents,
   isCurrentEventActive,
 };
 

@@ -19,6 +19,7 @@ model User {
   Session    Session[]
   Enrollment Enrollment[]
   Booking    Booking[]
+  activities Activities[] @relation("ActivitiesUsers")
 }
 
 model Session {
@@ -137,4 +138,15 @@ model Booking {
   roomId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Activities {
+  id         Int      @id @default(autoincrement())
+  nome       String
+  horario    DateTime
+  duracao    Int // Duração em minutos
+  vagasTotal Int
+  vagasAtual Int
+  local      String
+  user       User[]   @relation("ActivitiesUsers")
 }

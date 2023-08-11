@@ -10,12 +10,3 @@ export async function getDefaultEvent(_req: Request, res: Response) {
     return res.status(httpStatus.NOT_FOUND).send({});
   }
 }
-
-export async function getEvents(_req: Request, res: Response) {
-  try {
-    const events = await eventsService.getEvents();
-    return res.status(httpStatus.OK).send(events);
-  } catch (error) {
-    return res.status(httpStatus.NOT_FOUND).send({});
-  }
-}
