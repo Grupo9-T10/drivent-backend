@@ -17,6 +17,116 @@ async function main() {
     });
   }
 
+  let hotel1 = await prisma.hotel.findFirst({ where: { id: 1 } });
+  if (!hotel1) {
+    hotel1 = await prisma.hotel.create({
+      data: {
+        id: 1,
+        name: 'Hotel 1',
+        image: 'https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  let hotel2 = await prisma.hotel.findFirst({ where: { id: 2 } });
+  if (!hotel2) {
+    hotel2 = await prisma.hotel.create({
+      data: {
+        id: 2,
+        name: 'Hotel 2',
+        image: 'https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  let room1 = await prisma.room.findFirst({ where: { id: 1 } });
+  if (!room1) {
+    room1 = await prisma.room.create({
+      data: {
+        id: 1,
+        name: 'Room 1',
+        capacity: 3,
+        hotelId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  let room2 = await prisma.room.findFirst({ where: { id: 2 } });
+  if (!room2) {
+    room2 = await prisma.room.create({
+      data: {
+        id: 2,
+        name: 'Room 2',
+        capacity: 2,
+        hotelId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  let room3 = await prisma.room.findFirst({ where: { id: 3 } });
+  if (!room3) {
+    room3 = await prisma.room.create({
+      data: {
+        id: 3,
+        name: 'Room 3',
+        capacity: 2,
+        hotelId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  let room4 = await prisma.room.findFirst({ where: { id: 4 } });
+  if (!room4) {
+    room4 = await prisma.room.create({
+      data: {
+        id: 4,
+        name: 'Room 1',
+        capacity: 3,
+        hotelId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  let room5 = await prisma.room.findFirst({ where: { id: 5 } });
+  if (!room5) {
+    room5 = await prisma.room.create({
+      data: {
+        id: 5,
+        name: 'Room 2',
+        capacity: 2,
+        hotelId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  let room6 = await prisma.room.findFirst({ where: { id: 6 } });
+  if (!room6) {
+    room6 = await prisma.room.create({
+      data: {
+        id: 6,
+        name: 'Room 3',
+        capacity: 2,
+        hotelId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+  }
+
   let activities1 = await prisma.activities.findFirst({ where: { id: 1 } });
   if (!activities1) {
     activities1 = await prisma.activities.create({
@@ -59,7 +169,20 @@ async function main() {
     });
   }
 
-  console.log({ event, activities1, activities2, activities3 });
+  console.log({
+    event,
+    hotel1,
+    hotel2,
+    room1,
+    room2,
+    room3,
+    room4,
+    room5,
+    room6,
+    activities1,
+    activities2,
+    activities3,
+  });
 }
 
 main()
