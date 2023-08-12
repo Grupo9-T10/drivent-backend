@@ -46,9 +46,9 @@ async function checkConflictTime(activitieId: number, userId: number) {
   });
 
   if (user.activities.length > 0) {
-    return false;
+    return true;
   }
-  return true;
+  return false;
 }
 
 async function registerUserActivity(activitieId: number, userId: number) {
@@ -81,11 +81,23 @@ async function registerUserActivity(activitieId: number, userId: number) {
   }
 }
 
+async function userActivities(userId: number) {
+  return await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      activities: true,
+    },
+  });
+}
+
 const activitiesRepository = {
   findMany,
   findManyDay,
   checkConflictTime,
   registerUserActivity,
+  userActivities,
 };
 
 export default activitiesRepository;

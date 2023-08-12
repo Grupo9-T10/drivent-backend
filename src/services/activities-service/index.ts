@@ -20,17 +20,27 @@ async function checkConflictTimeService(activitieId: number, userId: number) {
 }
 
 async function registerUserActivityService(activitieId: number, userId: number) {
-  if (checkConflictTimeService) {
-    return await activitiesRepository.registerUserActivity(activitieId, userId);
-  } else {
+  const isConflict = await checkConflictTimeService(activitieId, userId);
+
+  if (isConflict) {
     return 'Time conflict with another activity.';
+  } else {
+    return await activitiesRepository.registerUserActivity(activitieId, userId);
   }
+}
+
+async function getUserActivitiesService(userId: number) {
+  const user = await activitiesRepository.userActivities(userId);
+  if (!user) throw notFoundError();
+
+  return user;
 }
 
 const activitiesService = {
   getActivitiesService,
   getActivitiesDayService,
   registerUserActivityService,
+  getUserActivitiesService,
 };
 
 export default activitiesService;
