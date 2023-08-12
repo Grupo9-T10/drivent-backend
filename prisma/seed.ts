@@ -17,7 +17,7 @@ async function main() {
     });
   }
 
-  let activities1 = await prisma.activities.findFirst();
+  let activities1 = await prisma.activities.findFirst({ where: { id: 1 } });
   if (!activities1) {
     activities1 = await prisma.activities.create({
       data: {
@@ -31,7 +31,7 @@ async function main() {
     });
   }
 
-  let activities2 = await prisma.activities.findFirst();
+  let activities2 = await prisma.activities.findFirst({ where: { id: 2 } });
   if (!activities2) {
     activities2 = await prisma.activities.create({
       data: {
@@ -45,7 +45,7 @@ async function main() {
     });
   }
 
-  let activities3 = await prisma.activities.findFirst();
+  let activities3 = await prisma.activities.findFirst({ where: { id: 3 } });
   if (!activities3) {
     activities3 = await prisma.activities.create({
       data: {
