@@ -18,6 +18,9 @@ async function findByRoomId(roomId: number) {
     where: {
       roomId,
     },
+    include: {
+      Room: true, 
+    }
   });
 }
 
