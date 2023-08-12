@@ -2,6 +2,8 @@ import { notFoundError, unauthorizedError } from "@/errors";
 import paymentRepository, { PaymentParams } from "@/repositories/payment-repository";
 import ticketRepository from "@/repositories/ticket-repository";
 import enrollmentRepository from "@/repositories/enrollment-repository";
+import { prisma } from "../../config";
+import { Prisma } from "@prisma/client";
 
 async function verifyTicketAndEnrollment(ticketId: number, userId: number) {
   const ticket = await ticketRepository.findTickeyById(ticketId);
@@ -39,9 +41,12 @@ async function paymentProcess(ticketId: number, userId: number, cardData: CardPa
     cardLastDigits: cardData.number.toString().slice(-4),
   };
 
-  const payment = await paymentRepository.createPayment(ticketId, paymentData);
-
-  await ticketRepository.ticketProcessPayment(ticketId);
+  const payment = await prisma.$transaction(async(tx:Prisma.TransactionClient)=>{
+    const payment = await paymentRepository.createPayment(ticketId, paymentData,tx);
+    await ticketRepository.ticketProcessPayment(ticketId,tx);
+    return payment
+  })
+  
 
   return payment;
 }

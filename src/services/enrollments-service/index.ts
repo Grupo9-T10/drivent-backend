@@ -4,7 +4,8 @@ import { notFoundError } from "@/errors";
 import addressRepository, { CreateAddressParams } from "@/repositories/address-repository";
 import enrollmentRepository, { CreateEnrollmentParams } from "@/repositories/enrollment-repository";
 import { exclude } from "@/utils/prisma-utils";
-import { Address, Enrollment } from "@prisma/client";
+import { Address, Enrollment, Prisma } from "@prisma/client";
+import { prisma } from "../../config";
 
 async function getAddressFromCEP(cep: string): Promise<AddressEnrollment> {
   const result = await getAddress(cep);
@@ -59,17 +60,15 @@ type GetAddressResult = Omit<Address, "createdAt" | "updatedAt" | "enrollmentId"
 async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollmentWithAddress) {
   const enrollment = exclude(params, "address");
   const address = getAddressForUpsert(params.address);
-
-  //BUG - Verificar se o CEP é válido
-
   const result = await getAddressFromCEP(address.cep);
   if (result.error) {
     throw notFoundError();
   }
-
-  const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, "userId"));
-
-  await addressRepository.upsert(newEnrollment.id, address, address);
+  await prisma.$transaction(async(tx:Prisma.TransactionClient)=>{
+    const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, "userId"), tx);
+    await addressRepository.upsert(newEnrollment.id, address, address, tx);
+  })
+  
 }
 
 function getAddressForUpsert(address: CreateAddressParams) {
