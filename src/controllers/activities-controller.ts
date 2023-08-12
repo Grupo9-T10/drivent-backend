@@ -35,3 +35,15 @@ export async function registerUserActivity(req: Request, res: Response) {
     return res.status(httpStatus.NOT_FOUND).send({});
   }
 }
+
+export async function getUserActivities(req: Request, res: Response) {
+  try {
+    const userId = parseInt(req.params.userId);
+
+    const user = await activitiesService.getUserActivitiesService(userId);
+    return res.status(200).json(user.activities);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}
