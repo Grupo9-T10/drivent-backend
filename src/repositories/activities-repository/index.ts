@@ -12,6 +12,7 @@ async function findManyDay(day: Date) {
     select: {
       name: true,
       day: true,
+      startTime: true,
       duration: true,
       local: true,
       vacanciesCurrent: true,
