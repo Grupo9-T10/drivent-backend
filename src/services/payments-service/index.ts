@@ -4,10 +4,12 @@ import ticketRepository from "@/repositories/ticket-repository";
 import enrollmentRepository from "@/repositories/enrollment-repository";
 import { prisma } from "../../config";
 import { Prisma } from "@prisma/client";
+import { confirmationMessage, sendEmail } from "../../utils/send-email";
+import userRepository from "../../repositories/user-repository";
 
 async function verifyTicketAndEnrollment(ticketId: number, userId: number) {
   const ticket = await ticketRepository.findTickeyById(ticketId);
-
+  
   if (!ticket) {
     throw notFoundError();
   }
@@ -16,6 +18,8 @@ async function verifyTicketAndEnrollment(ticketId: number, userId: number) {
   if (enrollment.userId !== userId) {
     throw unauthorizedError();
   }
+
+  return enrollment
 }
 
 async function getPaymentByTicketId(userId: number, ticketId: number) {
@@ -30,7 +34,7 @@ async function getPaymentByTicketId(userId: number, ticketId: number) {
 }
 
 async function paymentProcess(ticketId: number, userId: number, cardData: CardPaymentParams) {
-  await verifyTicketAndEnrollment(ticketId, userId);
+  const enrollment = await verifyTicketAndEnrollment(ticketId, userId);
 
   const ticket = await ticketRepository.findTickeWithTypeById(ticketId);
 
@@ -47,6 +51,9 @@ async function paymentProcess(ticketId: number, userId: number, cardData: CardPa
     return payment
   })
   
+  const user = await userRepository.findById(enrollment.userId)
+  const msg = confirmationMessage(ticket,enrollment)
+  sendEmail(user.email,msg)
 
   return payment;
 }
