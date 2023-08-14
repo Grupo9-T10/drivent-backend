@@ -10,6 +10,7 @@ async function findManyDay(day: Date) {
       day: { equals: day },
     },
     select: {
+      id: true,
       name: true,
       day: true,
       startTime: true,
