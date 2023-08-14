@@ -7,7 +7,7 @@ const activitiesRouter = Router();
 activitiesRouter
   .all('/*', authenticateToken)
   .get('/', getActivities)
-  .get('/:id', getUserActivities)
+  .get('/user/:id', getUserActivities)
   .get('/day', getActivitiesDay)
   .post('/register', registerUserActivity);
 
