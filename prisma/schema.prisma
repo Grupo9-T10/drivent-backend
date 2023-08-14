@@ -144,6 +144,7 @@ model Activities {
   id               Int      @id @default(autoincrement())
   name             String
   day              DateTime
+  startTime        DateTime
   duration         Int // Duração em minutos
   vacanciesTotal   Int
   vacanciesCurrent Int

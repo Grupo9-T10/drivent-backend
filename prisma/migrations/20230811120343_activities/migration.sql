@@ -3,6 +3,7 @@ CREATE TABLE "Activities" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "day" TIMESTAMP(3) NOT NULL,
+    "startTime" TIMESTAMP(3) NOT NULL,
     "duration" INTEGER NOT NULL,
     "vacanciesTotal" INTEGER NOT NULL,
     "vacanciesCurrent" INTEGER NOT NULL,
