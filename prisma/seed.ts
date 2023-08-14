@@ -3,7 +3,16 @@ import dayjs from 'dayjs';
 
 const prisma = new PrismaClient();
 
+async function cleanDatabase() {
+  await prisma.activities.deleteMany({});
+  await prisma.room.deleteMany({});
+  await prisma.hotel.deleteMany({});
+  await prisma.event.deleteMany({});
+}
+
 async function main() {
+  await cleanDatabase();
+
   let event = await prisma.event.findFirst();
   if (!event) {
     event = await prisma.event.create({
@@ -135,8 +144,8 @@ async function main() {
         day: new Date('2023-08-16'),
         startTime: new Date('2023-08-16T09:00:00.000Z'),
         duration: 60,
-        vacanciesTotal: 20,
-        vacanciesCurrent: 10,
+        vacanciesTotal: 30,
+        vacanciesCurrent: 8,
         local: 'Sala de Workshop',
       },
     });
@@ -145,6 +154,21 @@ async function main() {
   let activities2 = await prisma.activities.findFirst({ where: { id: 2 } });
   if (!activities2) {
     activities2 = await prisma.activities.create({
+      data: {
+        name: 'Primeiros passos na programação',
+        day: new Date('2023-08-16'),
+        startTime: new Date('2023-08-16T11:00:00.000Z'),
+        duration: 120,
+        vacanciesTotal: 20,
+        vacanciesCurrent: 10,
+        local: 'Auditório Principal',
+      },
+    });
+  }
+
+  let activities3 = await prisma.activities.findFirst({ where: { id: 3 } });
+  if (!activities3) {
+    activities3 = await prisma.activities.create({
       data: {
         name: 'Palestra Sobre Prism 5.0',
         day: new Date('2023-08-17'),
@@ -157,9 +181,9 @@ async function main() {
     });
   }
 
-  let activities3 = await prisma.activities.findFirst({ where: { id: 3 } });
-  if (!activities3) {
-    activities3 = await prisma.activities.create({
+  let activities4 = await prisma.activities.findFirst({ where: { id: 4 } });
+  if (!activities4) {
+    activities4 = await prisma.activities.create({
       data: {
         name: 'Aprendendo TypeScript',
         day: new Date('2023-08-17'),
@@ -167,6 +191,36 @@ async function main() {
         duration: 120,
         vacanciesTotal: 25,
         vacanciesCurrent: 0,
+        local: 'Auditório Principal',
+      },
+    });
+  }
+
+  let activities5 = await prisma.activities.findFirst({ where: { id: 5 } });
+  if (!activities5) {
+    activities5 = await prisma.activities.create({
+      data: {
+        name: 'Criação de jogos',
+        day: new Date('2023-08-18'),
+        startTime: new Date('2023-08-18T09:00:00.000Z'),
+        duration: 120,
+        vacanciesTotal: 35,
+        vacanciesCurrent: 15,
+        local: 'Sala de Workshop',
+      },
+    });
+  }
+
+  let activities6 = await prisma.activities.findFirst({ where: { id: 6 } });
+  if (!activities6) {
+    activities6 = await prisma.activities.create({
+      data: {
+        name: 'Programação Web',
+        day: new Date('2023-08-18'),
+        startTime: new Date('2023-08-18T10:00:00.000Z'),
+        duration: 90,
+        vacanciesTotal: 50,
+        vacanciesCurrent: 5,
         local: 'Auditório Principal',
       },
     });
@@ -185,6 +239,9 @@ async function main() {
     activities1,
     activities2,
     activities3,
+    activities4,
+    activities5,
+    activities6,
   });
 }
 
