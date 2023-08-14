@@ -13,7 +13,7 @@ export async function getActivities(req: Request, res: Response) {
 
 export async function getActivitiesDay(req: Request, res: Response) {
   try {
-    const { date } = req.query;
+    const date = req.query.date;
 
     const day = new Date(date as string);
 
