@@ -132,7 +132,8 @@ async function main() {
     activities1 = await prisma.activities.create({
       data: {
         name: 'Minecraft: montando o PC ideal',
-        day: new Date('2023-08-16T09:00:00.000Z'),
+        day: new Date('2023-08-16'),
+        startTime: new Date('2023-08-16T09:00:00.000Z'),
         duration: 60,
         vacanciesTotal: 20,
         vacanciesCurrent: 10,
@@ -146,7 +147,8 @@ async function main() {
     activities2 = await prisma.activities.create({
       data: {
         name: 'Palestra Sobre Prism 5.0',
-        day: new Date('2023-08-17T10:00:00.000Z'),
+        day: new Date('2023-08-17'),
+        startTime: new Date('2023-08-17T10:00:00.000Z'),
         duration: 90,
         vacanciesTotal: 15,
         vacanciesCurrent: 5,
@@ -160,7 +162,8 @@ async function main() {
     activities3 = await prisma.activities.create({
       data: {
         name: 'Aprendendo TypeScript',
-        day: new Date('2023-08-17T11:00:00.000Z'),
+        day: new Date('2023-08-17'),
+        startTime: new Date('2023-08-17T11:00:00.000Z'),
         duration: 120,
         vacanciesTotal: 25,
         vacanciesCurrent: 0,
