@@ -1,6 +1,6 @@
-import activitiesService from '@/services/activities-service';
-import { Request, Response } from 'express';
-import httpStatus from 'http-status';
+import activitiesService from "@/services/activities-service";
+import { Request, Response } from "express";
+import httpStatus from "http-status";
 
 export async function getActivities(req: Request, res: Response) {
   try {
@@ -38,12 +38,12 @@ export async function registerUserActivity(req: Request, res: Response) {
 
 export async function getUserActivities(req: Request, res: Response) {
   try {
-    const userId = parseInt(req.params.userId);
+    const userId = parseInt(req.params.id);
 
     const user = await activitiesService.getUserActivitiesService(userId);
     return res.status(200).json(user.activities);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: "Internal server error" });
   }
 }
